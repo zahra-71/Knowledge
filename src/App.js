@@ -1,0 +1,61 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
+
+// styles
+import './App.css';
+
+// componenets
+import Header from './components/Header/Header';
+import Home from './pages/Home/Home';
+import Register from './pages/Register/Register';
+import Login from './pages/Login/Login';
+import { appLoaded } from './store/reducers/commonReducer';
+import { SelectUser, SelectToken } from './store/reducers/authReducer';
+import agent from './store/agent';
+import { SelectRedirectTo } from './store/reducers/authReducer';
+import { getToken, getUser } from './storage/Storage';
+
+function App({children}) {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const selectUser = useSelector(SelectUser)
+  const selectToken = useSelector(SelectToken)
+  const selectRedirect = useSelector(SelectRedirectTo);
+
+  useEffect(() =>  {
+    const token = getToken();
+    const user = getUser();
+    if (token) {
+      agent.setToken(token)
+    }else {
+      agent.setToken(null)
+    }
+    dispatch(appLoaded({token:selectToken? selectToken:token, user:selectUser? selectUser: user }))
+  }, [dispatch, selectUser, selectToken])
+
+  useEffect(() => {
+    if (selectRedirect){
+      navigate(selectRedirect)
+    } 
+
+  },[selectRedirect, navigate])
+
+  return (
+    <div className="App">
+        <Header >
+          {children}
+        </Header>
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
+        </Routes>
+    </div>
+  );
+}
+
+export default App;

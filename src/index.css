@@ -1,0 +1,11 @@
+@import "./style/css/fonts.css";
+
+body {
+  font-family: IRANSns;
+  /* -webkit-font-smoothing: antialiased; */
+  /* -moz-osx-font-smoothing: grayscale; */
+}
+
+code {
+  font-family: IRANSns !important;
+}
