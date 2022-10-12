@@ -26,34 +26,35 @@ function App({children}) {
   const selectToken = useSelector(SelectToken)
   const selectRedirect = useSelector(SelectRedirectTo);
 
+  // for appLoaded log and add token and user in commonReducer
   useEffect(() =>  {
     const token = getToken();
     const user = getUser();
     if (token) {
       agent.setToken(token)
-    }else {
+    } else {
       agent.setToken(null)
     }
-    dispatch(appLoaded({token:selectToken? selectToken:token, user:selectUser? selectUser: user }))
+    dispatch(appLoaded({ token: selectToken? selectToken : token, user: selectUser? selectUser : user }))
   }, [dispatch, selectUser, selectToken])
 
+  // for navigating when login or register
   useEffect(() => {
     if (selectRedirect){
       navigate(selectRedirect)
     } 
-
   },[selectRedirect, navigate])
 
   return (
     <div className="App">
-        <Header >
-          {children}
-        </Header>
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/login" element={<Login />}/>
-          <Route path="/register" element={<Register />}/>
-        </Routes>
+      <Header >
+        {children}
+      </Header>
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/login" element={<Login />}/>
+        <Route path="/register" element={<Register />}/>
+      </Routes>
     </div>
   );
 }

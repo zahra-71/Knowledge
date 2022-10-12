@@ -43,6 +43,7 @@ function Register() {
     password: "",
   })
 
+  // for onchange input
   const handleChange = (e) => {
     setInputs(inputs => ({
       ...inputs,
@@ -50,6 +51,7 @@ function Register() {
     }))
   }
 
+  // for onclick button
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(register(agent.Auth.register(inputs.username, inputs.email, inputs.password)))

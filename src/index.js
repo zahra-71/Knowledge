@@ -9,13 +9,16 @@ import './index.css';
 // componenets
 import App from './App';
 import { store, history } from './store/store';
+import { ThemeProvider } from '@emotion/react';
+import Themes from './themes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store} >
-    <Router history={history}>
-      <App />
-    </Router>
-  </Provider>
-  
+  <ThemeProvider theme={Themes.default}>
+    <Provider store={store} >
+      <Router history={history}>
+        <App />
+      </Router>
+    </Provider>
+  </ThemeProvider>  
 );

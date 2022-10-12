@@ -10,28 +10,29 @@ import asyncReducer from "./reducers/asyncReducer";
 import homeReducer from "./reducers/homeReducer";
 import commonReducer from "./reducers/commonReducer"
 import { localStorageMiddleware, promiseMiddleware } from "./middleware";
+import articleReducer from "./reducers/articleReducer";
 
-const {createReduxHistory,
-routerMiddleware,
-routerReducer
-} = createReduxHistoryContext ({
-    history: createBrowserHistory () });
+const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext ({
+  history: createBrowserHistory () 
+});
 
-    export const store = configureStore({
-        reducer: combineReducers({
-            router: routerReducer,
-            common: commonReducer,
-            home: homeReducer,
-            auth: authReducer,
-            async: asyncReducer
-        }),
-        middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(
-            logger,
-            routerMiddleware,
-            promiseMiddleware,
-            localStorageMiddleware,
-        )
-    })
+// for combine reducers and display middleware
+export const store = configureStore({
+  reducer: combineReducers({
+    router: routerReducer,
+    common: commonReducer,
+    home: homeReducer,
+    article: articleReducer,
+    auth: authReducer,
+    async: asyncReducer
+  }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(
+      logger, 
+      routerMiddleware,          /* display chang directory in console */
+      promiseMiddleware,         /* display asyncStart and asyncEnd middleware inconsole*/
+      localStorageMiddleware,    /* save in localStorage */
+    )
+})
 
-    export const history = createReduxHistory(store)
+  export const history = createReduxHistory(store)
