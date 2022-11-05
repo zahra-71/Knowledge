@@ -47,7 +47,7 @@ function Login() {
     email: "",
     password: ""
   })
-console.log(inProgress)
+
   // for onchange input
   const handleChange = (e) => {
     setInputs(inputs => ({
@@ -105,7 +105,7 @@ console.log(inProgress)
         </Button>
       )}
       <Fade in={!!error}>
-        <Typography color="secodary">
+        <Typography color="red">
         {error? (
           <>
         {error}

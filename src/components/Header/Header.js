@@ -1,7 +1,7 @@
 import { AppBar, Button, Toolbar, Typography, Box, IconButton,
   Menu } from '@mui/material'
 import { styled } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -10,7 +10,7 @@ import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 
 // components
 import { logOut } from '../../store/reducers/commonReducer'
-import { logOuteAouth } from '../../store/reducers/authReducer'
+import { logOuteAouth, logOutUnloaded } from '../../store/reducers/authReducer'
 import { SelectCurrentUser } from '../../store/reducers/commonReducer'
 
 // styles
@@ -66,7 +66,14 @@ const LoggedInView = () => {
   const handleLogOut = () => {
     dispatch(logOut())
     dispatch(logOuteAouth())
+    
   }
+
+  useEffect( () => {
+    return() => {
+      dispatch(logOutUnloaded())
+    }
+  })
 
   return (
     <Box sx={{ flexGrow: 1 }}>

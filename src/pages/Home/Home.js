@@ -4,7 +4,7 @@ import { Box, Grid } from '@mui/material'
 
 // componenets
 import agent from '../../store/agent'
-import { homeLoaded, selectArticles, selectTags } from '../../store/reducers/homeReducer'
+import { changePageArticle, homeLoaded, selectArticles, selectTags } from '../../store/reducers/homeReducer'
 import { homeUnLoaded, SelectCurrentUser } from '../../store/reducers/commonReducer'
 import  Tags from '../../components/Home/Tags'
 import Banner from "../../components/Home/Banner"
@@ -29,8 +29,8 @@ function Home() {
   const selectUser = useSelector(SelectCurrentUser)
   // console.log("articles", articles)
   // console.log("tags", tags)
-  const [value, setValue] = useState("1")
-  
+  // const [pager, setPager] = useState()
+
   useEffect(() => {
     dispatch(homeLoaded(Promise.all([agent.Tags.getAll(), agent.Articles.all()])))
     return () => {
@@ -38,12 +38,18 @@ function Home() {
     }
   }, [dispatch])
 
+  const pagerChange = async (value) => {
+    // console.log(value)
+    // setPager(value)
+    dispatch(changePageArticle(await agent.Articles.all(value)))
+  }
+
   return (
     <Box sx={{mt: "15px", mr: 2, ml: 2}}>
       <Banner user={selectUser} />
       <MyGrid container spacing={2} >
         <Grid item flexGrow={1} md={8}>
-          <MainVeiw user={selectUser} articles={articles} value={value} setValue={setValue}/>
+          <MainVeiw user={selectUser} articles={articles} changePage={pagerChange}/>
         </Grid>
         <Grid item md={4}>
           <Tags tags={tags}/>

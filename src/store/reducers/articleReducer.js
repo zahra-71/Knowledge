@@ -4,20 +4,19 @@ export const initialState = {
 
 }
 
-export const articleSlice = createSlice({
+const articleSlice = createSlice({
   name: 'article',
   initialState,
-  reducers:{
-    articlesLoaded: (state, action) => {
-      state.feedArticles = action.payload;
-      state.feedArticlesCount = action.payload.articlesCount;
+  reducers: {
+    articleLoaded: (state, action) => {
+      state.article = action.payload["0"];
+      state.comments = action.payload["1"];
     }
-
   }
 })
 
-export const { articlesLoaded } = articleSlice.actions;
+export const { articleLoaded } = articleSlice.actions;
 export default articleSlice.reducer;
 
-export const selectFeedArticles = (state) => state.article.feedArticles ; 
-export const selectFeedArticlesCount = (state) => state.article.feedArticlesCount ; 
+export const selectArticle = (state) => state.article.article;
+export const selectComments = (state) => state.article.comments;

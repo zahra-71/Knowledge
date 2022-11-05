@@ -1,9 +1,13 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Grid, TextField, Typography, Button, Fade } from '@mui/material'
 import { styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
+import { CircularProgress } from '@mui/material'
+
+// components
 import agent from '../../store/agent'
-import { register, SelectErrors } from '../../store/reducers/authReducer'
+import { register, registerUnloaded, SelectErrorsEmail, SelectErrorsUsername } from '../../store/reducers/authReducer'
+import { SelectInProgress } from '../../store/reducers/asyncReducer'
 
 // styles
 const MyGrid = styled(Grid)(({ theme }) => ({
@@ -34,7 +38,9 @@ const MyForm = styled('div')(({theme}) => ({
 
 function Register() {
 
-  const error = useSelector(SelectErrors)
+  const errorUsername = useSelector(SelectErrorsUsername)
+  const errorEmail = useSelector(SelectErrorsEmail)
+  const inProgress = useSelector(SelectInProgress)
   const dispatch = useDispatch()
 
   const [inputs, setInputs] = useState({
@@ -56,6 +62,12 @@ function Register() {
     e.preventDefault()
     dispatch(register(agent.Auth.register(inputs.username, inputs.email, inputs.password)))
   }
+
+  useEffect(() => {
+    return() => {
+      dispatch(registerUnloaded())
+    }
+  }, [dispatch])
 
   return (
     <MyGrid container>
@@ -89,7 +101,10 @@ function Register() {
           sx={{p: 1}}
           onChange={handleChange}
         />
-        <Button
+        {inProgress ? (
+           <CircularProgress />
+        ) : (
+          <Button
           variant="contained"
           size="large"
           disabled={!inputs.username || !inputs.email || !inputs.password}
@@ -97,16 +112,13 @@ function Register() {
         >
           ثبت نام
         </Button>
-        <Fade in={!!error}>
-          <Typography color="secodary">
-            {error? (
-              <>
-              {error.email? <>ایمیل موجود است</> : null}
-              {error.username? <>نام کاربری موجود است</> : null}
-              </>
-            ) : (
-              <></>
-            )}
+        )}
+        
+        <Fade in={!!(errorUsername||errorEmail)}>
+          <Typography color="red">
+            {errorUsername && "نام کاربری موجود است"}
+            <br />
+            {errorEmail && "ایمیل موجود است"}
           </Typography>
         </Fade>
       </MyForm>

@@ -31,7 +31,7 @@ const Tags = ({tags}) => {
           tags.tags.map((tag, index) => {
             return (
               <MyGridItem item key={index}>
-                <Link  underline="none"
+                <Link
                   href="#"
                   sx={{ fontSize: "0.7rem",
                     backgroundColor: "gray",
