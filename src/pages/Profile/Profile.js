@@ -17,10 +17,10 @@ function Profile() {
   const username = decodeURI(location.pathname.replace('/@',''))
   const profile = useSelector(selectProfile)
   const articles = useSelector(selectProfileArticles)
-  console.log(profile)
+  // console.log(profile)
   // console.log(articles)
   const [follow, setFollow] = useState(profile && profile.profile.following)
-  console.log(follow)
+  // console.log(follow)
 
   useEffect(() => {
     dispatch(profileLoaded(Promise.all([

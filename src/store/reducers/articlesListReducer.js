@@ -16,8 +16,6 @@ export const articlesListSlice = createSlice({
       state.favorited = action.payload.article.favorited;
       state.favoritedCount = action.payload.article.favoritesCount;
     },
-
-
   }
 })
 

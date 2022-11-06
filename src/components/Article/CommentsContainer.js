@@ -6,18 +6,20 @@ import { useNavigate } from 'react-router'
 import Comments from './Comments'
 import CommentInput from './CommentInput'
 
-const CommentsContainer = ({comments , currentUser}) => {
+const CommentsContainer = ({comments , currentUser, slug}) => {
 
+  // console.log(comments)
   const navigate =useNavigate()
   // console.log(currentUser)
+
   if ( currentUser ) {
     return (
       <div>
-        <CommentInput />
+        <CommentInput slug={slug} />
         {comments ? (
           comments.comments.map((comment, index) => {
             return (
-              <Comments comment={comment} key={index}/>
+              <Comments comment={comment} key={index} currentUser={currentUser} slug={slug} index={index}/>
             )
           })
         ):(

@@ -3,6 +3,9 @@ import { Card, CardContent, Typography,
 import { useNavigate } from 'react-router'
 import { styled } from '@mui/system'
 
+// componenets
+import DeleteButton from './DeleteButton'
+
 const MyCard = styled(Card)(({theme}) => ({
   marginRight: theme.spacing(25),
   marginLeft: theme.spacing(25),
@@ -16,10 +19,13 @@ const MyCard = styled(Card)(({theme}) => ({
   },
 }))
 
-const Comments = ({comment}) => {
+const Comments = ({comment, currentUser, slug, index}) => {
 
   const navigate = useNavigate()
-  // console.log(comment)
+  // console.log(index)
+  // console.log(currentUser)
+  const show = currentUser &&
+  currentUser === comment.author.username
 
   return(
     <MyCard>
@@ -35,7 +41,7 @@ const Comments = ({comment}) => {
           sx={{cursor: "pointer"}}
           onClick={() => navigate(`/@${comment.author.username}`)}
         >
-          <img src={comment.author.image} alt={comment.author.username} style={{marginLeft: 4,  borderRadius: 10}}/>
+          <img src={comment.author.image} alt={comment.author.username} style={{marginLeft: 4,  borderRadius: 10, height: 25,width: 25}}/>
           
           {comment.author.username}
         </Link>
@@ -44,12 +50,13 @@ const Comments = ({comment}) => {
           color:"text.disabled",
           fontSize: "0.8rem",
           mt: 2.2,
-          mr: 3
+          mr: 3,
+          flexGrow: 1
         }}
         >
             {new Date(comment.createdAt).toDateString()}
         </Typography>
-
+        <DeleteButton  show={show} commentId={comment.id} slug={slug} index={index}/>
       </CardActions>
 
 

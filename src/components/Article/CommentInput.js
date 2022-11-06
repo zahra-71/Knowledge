@@ -1,6 +1,11 @@
 import { TextField, Box, Card, CardContent, CardActions, Button } from '@mui/material'
 import React, {useState} from 'react'
 import { styled } from '@mui/system'
+import { useDispatch } from 'react-redux'
+
+// componenet
+import agent from '../../store/agent'
+import { addNewComment } from '../../store/reducers/articleReducer'
 
 const MyBox = styled(Card)(({theme}) => ({
   marginRight: theme.spacing(25),
@@ -15,8 +20,10 @@ const MyBox = styled(Card)(({theme}) => ({
   },
 }))
 
-const CommentInput = () => {
+const CommentInput = ({slug}) => {
 
+  const dispatch = useDispatch()
+  // console.log(slug)
   const [comment, setComment] = useState({
     body: ""
   })
@@ -25,8 +32,12 @@ const CommentInput = () => {
     setComment({body: e.target.value})
     // console.log(comment)
   }
-const handleClick = (e) => {
-  console.log(comment)
+const handleClick = async(e) => {
+  dispatch(addNewComment(await agent.Comments.create(slug, comment.body)))
+  // console.log(payload)
+  // setComment({
+  //   body: ""
+  // })
 }
 
   return (

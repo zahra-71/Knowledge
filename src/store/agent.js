@@ -69,8 +69,12 @@ const Profile = {
 
 const Comments = {
   forArticle: slug =>
-    requests.get(`/articles/${slug}/comments`)
-}
+    requests.get(`/articles/${slug}/comments`),
+  create: (slug, body) =>
+    requests.post(`/articles/${slug}/comments`, {comment: { body }}),
+  delete: (slug, commentId) =>
+    requests.del(`/articles/${slug}/comments/${commentId}`)
+  }
 const agent = {
   Tags, 
   Auth,

@@ -73,7 +73,7 @@ const LoggedInView = () => {
     return() => {
       dispatch(logOutUnloaded())
     }
-  })
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1 }}>
