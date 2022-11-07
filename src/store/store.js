@@ -11,7 +11,7 @@ import homeReducer from "./reducers/homeReducer";
 import commonReducer from "./reducers/commonReducer"
 import { localStorageMiddleware, promiseMiddleware } from "./middleware";
 import articlesListReducer from "./reducers/articlesListReducer";
-import profileReducer from "./reducers/profileReducer";
+import authorProfileReducer from "./reducers/authorProfileReducer";
 import articleReducer from "./reducers/articleReducer";
 import articlesByTagReducer from "./reducers/articlesByTagReducer";
 
@@ -28,7 +28,7 @@ export const store = configureStore({
     articlesList: articlesListReducer,
     article: articleReducer,
     articlesListByTag: articlesByTagReducer,
-    profile: profileReducer,
+    authorProfile: authorProfileReducer,
     auth: authReducer,
     async: asyncReducer
   }),

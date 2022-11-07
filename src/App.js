@@ -11,7 +11,7 @@ import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
-import Profile from './pages/Profile/Profile';
+import AuthorProfile from './pages/AuthorProfile/AuthorProfile';
 import { appLoaded } from './store/reducers/commonReducer';
 import { SelectUser, SelectToken } from './store/reducers/authReducer';
 import agent from './store/agent';
@@ -56,7 +56,7 @@ function App({children}) {
         <Route path="/" element={<Home />}/>
         <Route path="/login" element={<Login />}/>
         <Route path="/register" element={<Register />}/>
-        <Route path="/@:username" element={<Profile />}/>
+        <Route path="/@:username" element={<AuthorProfile />}/>
         <Route path="/article/:id" element={<Article />}/>
       </Routes>
     </div>

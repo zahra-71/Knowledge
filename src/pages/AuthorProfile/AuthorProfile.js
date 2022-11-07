@@ -8,41 +8,41 @@ import RemoveIcon from '@mui/icons-material/Remove';
 // Component
 import ArticlesList from '../../components/Home/ArticlesList'
 import agent from '../../store/agent'
-import { profileLoaded, profileUnLoaded, selectProfile, selectProfileArticles, profileFollow, profileChangePage } from '../../store/reducers/profileReducer'
+import { authorProfileLoaded, authorProfileUnLoaded, selectAuthorProfile, selectAuthorProfileArticles, authorProfileFollow, authorProfileChangePage } from '../../store/reducers/authorProfileReducer'
 
-function Profile() {
+function AuthorProfile() {
 
   const location = useLocation()
   const dispatch = useDispatch()
   const username = decodeURI(location.pathname.replace('/@',''))
-  const profile = useSelector(selectProfile)
-  const articles = useSelector(selectProfileArticles)
+  const profile = useSelector(selectAuthorProfile)
+  const articles = useSelector(selectAuthorProfileArticles)
   const [follow, setFollow] = useState(profile && profile.profile.following)
-
+console.log(profile)
   // get profile and articles by author
   useEffect(() => {
-    dispatch(profileLoaded(Promise.all([
+    dispatch(authorProfileLoaded(Promise.all([
       agent.Profile.get(username),
       agent.Articles.byAuthor(username)])
     ))
     return () => {
-      dispatch(profileUnLoaded())
+      dispatch(authorProfileUnLoaded())
     }
   }, [dispatch, username])
 
   // for follow and unfollow button
   const handleFollow = async() => {
     if (follow) {
-      dispatch(profileFollow(await agent.Profile.unfollow(username)))
+      dispatch(authorProfileFollow(await agent.Profile.unfollow(username)))
     } else {
-      dispatch(profileFollow(await agent.Profile.follow(username)))
+      dispatch(authorProfileFollow(await agent.Profile.follow(username)))
     }
     setFollow(!follow)
   }
 
   // for page change of articles in by author api
   const handlePageChange = async(value) => {
-    dispatch(profileChangePage(await agent.Articles.byAuthor(username, value)))
+    dispatch(authorProfileChangePage(await agent.Articles.byAuthor(username, value)))
   }
 
   return (
@@ -98,4 +98,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default AuthorProfile
