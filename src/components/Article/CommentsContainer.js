@@ -8,9 +8,7 @@ import CommentInput from './CommentInput'
 
 const CommentsContainer = ({comments , currentUser, slug}) => {
 
-  // console.log(comments)
-  const navigate =useNavigate()
-  // console.log(currentUser)
+  const navigate = useNavigate()
 
   if ( currentUser ) {
     return (

@@ -38,10 +38,10 @@ const MyForm = styled('div')(({theme}) => ({
 
 function Register() {
 
+  const dispatch = useDispatch()
   const errorUsername = useSelector(SelectErrorsUsername)
   const errorEmail = useSelector(SelectErrorsEmail)
   const inProgress = useSelector(SelectInProgress)
-  const dispatch = useDispatch()
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -57,12 +57,13 @@ function Register() {
     }))
   }
 
-  // for onclick button
+  // for submit button of register
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(register(agent.Auth.register(inputs.username, inputs.email, inputs.password)))
   }
 
+  // for registerUnloaded log and clear the redirect
   useEffect(() => {
     return() => {
       dispatch(registerUnloaded())

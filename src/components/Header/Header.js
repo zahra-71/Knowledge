@@ -65,15 +65,15 @@ const LoggedInView = () => {
   // onclick for log out
   const handleLogOut = () => {
     dispatch(logOut())
-    dispatch(logOuteAouth())
-    
+    dispatch(logOuteAouth())  
   }
 
+  // for logOutLoaded and clear redirect
   useEffect( () => {
     return() => {
       dispatch(logOutUnloaded())
     }
-  }, [])
+  }, [dispatch])
 
   return (
     <Box sx={{ flexGrow: 1 }}>

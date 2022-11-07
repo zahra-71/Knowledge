@@ -16,9 +16,7 @@ export const homeSlice = createSlice({
     },
     changePageArticle: (state, action) => {
       state.articles = action.payload;
-      console.log(state.articles)
     }
-
   }
 })
 

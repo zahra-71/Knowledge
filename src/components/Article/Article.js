@@ -2,12 +2,10 @@ import { Card, CardHeader, Typography,
   Link, CardContent, CardActions } from "@mui/material";
 import { useNavigate } from "react-router";
 
-
 const ArticleContent = ({article}) => {
-
+  
   const navigate = useNavigate()
 
-  // console.log(article)
   return(
     <>
       {article && 

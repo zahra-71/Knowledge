@@ -27,10 +27,8 @@ function Home() {
   const tags = useSelector(selectTags)
   const articles = useSelector(selectArticles)
   const selectUser = useSelector(SelectCurrentUser)
-  // console.log("articles", articles)
-  // console.log("tags", tags)
-  // const [pager, setPager] = useState()
 
+  // get articles and tags in global field
   useEffect(() => {
     dispatch(homeLoaded(Promise.all([agent.Tags.getAll(), agent.Articles.all()])))
     return () => {
@@ -38,9 +36,8 @@ function Home() {
     }
   }, [dispatch])
 
+  // change page of articles in global field
   const pagerChange = async (value) => {
-    // console.log(value)
-    // setPager(value)
     dispatch(changePageArticle(await agent.Articles.all(value)))
   }
 

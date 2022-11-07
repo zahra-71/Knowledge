@@ -3,6 +3,7 @@ import { styled } from '@mui/system'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { CircularProgress } from '@mui/material'
+
 // components
 import { login, loginUnloaded } from '../../store/reducers/authReducer'
 import agent from '../../store/agent'
@@ -40,7 +41,6 @@ const MyForm = styled('div')(({theme}) => ({
 function Login() {
 
   const dispatch = useDispatch()
-
   const error = useSelector(SelectErrors)
   const inProgress = useSelector(SelectInProgress)
   const [inputs, setInputs] = useState({
@@ -56,13 +56,13 @@ function Login() {
     }))
   }
 
-  // for onclick button
+  // for login button
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(login(agent.Auth.login(inputs.email, inputs.password)))
   }
 
-  // for loginUnloaded log
+  // for loginUnloaded log and clear the redirect
   useEffect(() => {
     return() => {
       dispatch(loginUnloaded())

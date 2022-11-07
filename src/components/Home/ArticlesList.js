@@ -1,13 +1,10 @@
-
 // components
 import { Typography } from "@mui/material";
 import ArticlePreview from "./ArticlePreview"
 import ListPagination from "./ListPagination";
-import { selectArticlesCount } from "../../store/reducers/homeReducer";
 
 const ArticlesList = ({articles, changePage}) => {
 
-// console.log(articles)
   if (!articles.articles) {
     return(
       <Typography>

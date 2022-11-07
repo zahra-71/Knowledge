@@ -26,14 +26,13 @@ export const authSlice = createSlice({
       state.token = action.payload.user ? action.payload.user.token : null;
       state.errorsEmail = action.payload.errors["email"]? "ایمیل موجود است" : null;
       state.errorsUsername = action.payload.errors["username"]? "نام کاربری موجود است" : null;
-      state.errors = action.payload.errors? action.payload.errors : null;
-      console.log(state.errors)
       state.redirectTo = action.payload.errors ? null : '/';
     },
     registerUnloaded: (state, action) => {
       state.errorsEmail = null;
       state.errorsUsername = null;
       state.errors = null;
+      state.redirectTo = null;
     },
     logOuteAouth: (state, action) => {
       state.username = null;

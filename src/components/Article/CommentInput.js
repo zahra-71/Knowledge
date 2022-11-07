@@ -1,4 +1,4 @@
-import { TextField, Box, Card, CardContent, CardActions, Button } from '@mui/material'
+import { TextField, Card, CardContent, CardActions, Button } from '@mui/material'
 import React, {useState} from 'react'
 import { styled } from '@mui/system'
 import { useDispatch } from 'react-redux'
@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import agent from '../../store/agent'
 import { addNewComment } from '../../store/reducers/articleReducer'
 
+// styles
 const MyBox = styled(Card)(({theme}) => ({
   marginRight: theme.spacing(25),
   marginLeft: theme.spacing(25),
@@ -23,33 +24,34 @@ const MyBox = styled(Card)(({theme}) => ({
 const CommentInput = ({slug}) => {
 
   const dispatch = useDispatch()
-  // console.log(slug)
   const [comment, setComment] = useState({
     body: ""
   })
 
-  const handleChange = (e) => {
+  // for onchange input
+  const onChange = (e) => {
     setComment({body: e.target.value})
-    // console.log(comment)
   }
-const handleClick = async(e) => {
-  dispatch(addNewComment(await agent.Comments.create(slug, comment.body)))
-  // console.log(payload)
-  // setComment({
-  //   body: ""
-  // })
-}
+
+  // for add comment button
+  const handleAddComment = async(e) => {
+    dispatch(addNewComment(await agent.Comments.create(slug, comment.body)))
+    setComment({
+      body: ""
+    })
+  }
 
   return (
     <MyBox>
       <CardContent>
         <TextField placeholder="نظر بگذارید..."
           fullWidth
-          onChange={handleChange}
+          onChange={onChange}
           maxRows="4"
           multiline={true}
-         sx={{
-          "& fieldset": { border: 'none' },
+          value={comment.body}
+          sx={{
+            "& fieldset": { border: 'none' },
           // "&.MuiTextField-root":{ 
           //   '&: hover fieldset': {
           //     borderColor: "#bdbdbd",
@@ -60,11 +62,11 @@ const handleClick = async(e) => {
           //     borderColor: "#bdbdbd"
           //   }
           // }
-         }}
+          }}
         />
       </CardContent>
       <CardActions sx={{backgroundColor: "#EAEAEA"}}>
-        <Button variant="outlined" onClick={handleClick}>
+        <Button variant="outlined" onClick={handleAddComment}>
           ثبت نظر
         </Button>
       </CardActions>

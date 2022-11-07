@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import agent from '../../store/agent'
 import { articlesByTagLoaded, articlesTag } from '../../store/reducers/articlesByTagReducer'
 
+// styles
 const MyBox = styled(Box) (({ theme }) => ({
   padding: theme.spacing(1),
   width: 380,
@@ -28,19 +29,19 @@ const Tags = ({tags}) => {
 
   const dispatch = useDispatch()
 
-// console.log(tags)
-
   return(
     <MyBox>
       <Typography>تگ‌های عمومی</Typography>
       <Grid container rowSpacing={1} >
         { tags ? (
           tags.tags.map((tag, index) => {
+            // for get articles by tag
             const handleTag = () => {
               console.log(tag)
               dispatch(articlesByTagLoaded(agent.Articles.byTag(tag)))
               dispatch(articlesTag(tag))
             }
+            
             return (
               <MyGridItem item key={index}>
                 <Link

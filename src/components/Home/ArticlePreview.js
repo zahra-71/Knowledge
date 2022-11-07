@@ -4,14 +4,14 @@ import { Typography, Link, Paper, CardHeader, CardContent, Divider,
 import { Favorite } from '@mui/icons-material'
 import { styled } from "@mui/system"
 import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router"
 
 // component
 import agent from "../../store/agent"
 import { favoriteArticle } from "../../store/reducers/articlesListReducer"
-import { useNavigate } from "react-router"
 
+// styles
 const MyButton = styled( Button ) (({ theme }) => ({
-
   marginRight: "auto",
   '&: hover': {
     backgroundColor: theme.palette.primary.main,
@@ -29,31 +29,30 @@ const MyPaper = styled( Paper) (({ theme }) => ({
 const ArticlePreview = ({article}) => {
 
   const dispatch = useDispatch()
-  const [favorited, setFavorited] = useState(article.favorited)
-  console.log(favorited)
-  let [count, setCount] = useState(article.favoritesCount)
   const navigate = useNavigate()
+  const [favorited, setFavorited] = useState(article.favorited)
+  let [count, setCount] = useState(article.favoritesCount)
+  
 
+  // update of count and state of favorite button
   useEffect(() => {
     setCount(article.favoritesCount)
     setFavorited(article.favorited)
   }, [article.favoritesCount, article.favorited])
 
-  const handleClick = async(e) => {
-
+  // change count of favorite button
+  const handleCountFavorite = async(e) => {
     e.preventDefault()
 
     if (favorited){
       // console.log("unlike")
       dispatch(favoriteArticle(await agent.Articles.unfavorite(article.slug)))
       setCount(count - 1)
-      // console.log(count)
       setFavorited(!favorited) 
     } else {
       // console.log("like")
       dispatch(favoriteArticle(await agent.Articles.favorite(article.slug)))
       setCount(count + 1)
-      // console.log(count)
       setFavorited(!favorited)
     }
   }
@@ -116,10 +115,9 @@ const ArticlePreview = ({article}) => {
             </Link>
           ) 
       })}
-      
       <MyButton aria-label="add to favorites"
         variant="outlined"
-        onClick={handleClick}
+        onClick={handleCountFavorite}
         sx={{
           bgcolor: favorited? "#1976d2" : "white",
           color: favorited? "white" : "#1976d2"

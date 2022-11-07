@@ -17,11 +17,9 @@ function Profile() {
   const username = decodeURI(location.pathname.replace('/@',''))
   const profile = useSelector(selectProfile)
   const articles = useSelector(selectProfileArticles)
-  // console.log(profile)
-  // console.log(articles)
   const [follow, setFollow] = useState(profile && profile.profile.following)
-  // console.log(follow)
 
+  // get profile and articles by author
   useEffect(() => {
     dispatch(profileLoaded(Promise.all([
       agent.Profile.get(username),
@@ -32,17 +30,17 @@ function Profile() {
     }
   }, [dispatch, username])
 
-  const handleClick = async() => {
-    console.log( username )
+  // for follow and unfollow button
+  const handleFollow = async() => {
     if (follow) {
       dispatch(profileFollow(await agent.Profile.unfollow(username)))
     } else {
       dispatch(profileFollow(await agent.Profile.follow(username)))
     }
     setFollow(!follow)
-    console.log(follow)
   }
 
+  // for page change of articles in by author api
   const handlePageChange = async(value) => {
     dispatch(profileChangePage(await agent.Articles.byAuthor(username, value)))
   }
@@ -78,7 +76,7 @@ function Profile() {
               color: follow? "white" :  "#1976d2"
             }}
               endIcon={follow? <RemoveIcon sx={{mr: 2}}/> : <AddIcon sx={{mr: 2}}/>}
-              onClick={handleClick}
+              onClick={handleFollow}
             >
               {follow? (
                 "دنبال نکردن"
