@@ -30,12 +30,14 @@ const ArticlePreview = ({article}) => {
 
   const dispatch = useDispatch()
   const [favorited, setFavorited] = useState(article.favorited)
+  console.log(favorited)
   let [count, setCount] = useState(article.favoritesCount)
   const navigate = useNavigate()
 
   useEffect(() => {
     setCount(article.favoritesCount)
-  }, [article.favoritesCount])
+    setFavorited(article.favorited)
+  }, [article.favoritesCount, article.favorited])
 
   const handleClick = async(e) => {
 
