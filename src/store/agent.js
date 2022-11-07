@@ -49,10 +49,13 @@ const Articles = {
   unfavorite: slug =>
     requests.del(`/articles/${slug}/favorite`),
   byAuthor: (username, page) => 
-  // console.log(username)
+    // console.log(username, page),
     requests.get(`/articles?author=${username}&${limit(5, page)}`),
   get: slug =>
-    requests.get(`/articles/${slug}`)
+    requests.get(`/articles/${slug}`),
+  byTag: (tag, page) => 
+  // console.log(tag, page)
+    requests.get(`/articles?tag=${tag}&${limit(5, page)}`)
 
 }
 

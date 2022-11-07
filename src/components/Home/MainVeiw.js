@@ -1,37 +1,50 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Box, Tab, Divider, Card } from "@mui/material"
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useDispatch, useSelector } from 'react-redux'
 
 // components
 import ArticlesList from "./ArticlesList"
-import ListPagination from './ListPagination'
 import agent from '../../store/agent'
 import { articlesListLoaded, selectFeedArticles } from '../../store/reducers/articlesListReducer'
+import { articlesByTagLoaded, selectArticlesByTag, selectTag } from '../../store/reducers/articlesByTagReducer'
 
 function MainVeiw({user, articles, changePage }) {
 
-  const [value, setValue] = useState("1")
   const dispatch = useDispatch()
-  // console.log(articles)
   const feedArticles = useSelector(selectFeedArticles)
-  // console.log(feedArticles)
+  const articlesByTag = useSelector(selectArticlesByTag)
+  const tag = useSelector(selectTag)
+  const [value, setValue] = useState("1")
 
-  const handleChange = (event, newValue) => {
+  // change tab
+  const handleChangeTab = (event, newValue) => {
     setValue(newValue)
   }
 
-  const clickHandler = (e) => {
+  // get feed articles
+  const handleFeedArticles = (e) => {
     dispatch(articlesListLoaded(agent.Articles.feed()))
   }
+
+  // change page of articles with tag
+  const changePageTag = async(value) => {
+    dispatch(articlesByTagLoaded(await agent.Articles.byTag(tag,value)))
+  }
+
+  // update tab when receive articles by tag
+  useEffect(() => {
+    setValue(tag? "2" : "1")
+  },[tag])
   
   return (
     <Box sx={{ width: '100%', typography: 'body1'}}>
       <TabContext value={value}>
         <Box>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <TabList onChange={handleChangeTab} aria-label="lab API tabs example">
             <Tab label="زمینه سراسری" value="1" />
-            { user && <Tab label="زمینه شما" value="0" onClick={clickHandler}/> }
+            { user && <Tab label="زمینه شما" value="0" onClick={handleFeedArticles}/> }
+            {articlesByTag && <Tab label={tag} value="2"/>}
           </TabList>
           <Divider />
         </Box>
@@ -40,7 +53,6 @@ function MainVeiw({user, articles, changePage }) {
             { articles &&
               <>
                 <ArticlesList articles={articles} changePage={changePage}/> 
-                {/* <ListPagination count={articles.articlesCount} changePage={changePage}/> */}
               </>
             } 
           </Card>
@@ -48,6 +60,11 @@ function MainVeiw({user, articles, changePage }) {
         <TabPanel value="0">
           { feedArticles &&
               <ArticlesList articles={feedArticles} />
+          }
+        </TabPanel>
+        <TabPanel value="2">
+          { articlesByTag && 
+            <ArticlesList articles={articlesByTag} changePage={changePageTag}/>
           }
         </TabPanel>
       </TabContext>

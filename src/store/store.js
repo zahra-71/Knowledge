@@ -13,6 +13,7 @@ import { localStorageMiddleware, promiseMiddleware } from "./middleware";
 import articlesListReducer from "./reducers/articlesListReducer";
 import profileReducer from "./reducers/profileReducer";
 import articleReducer from "./reducers/articleReducer";
+import articlesByTagReducer from "./reducers/articlesByTagReducer";
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext ({
   history: createBrowserHistory () 
@@ -26,6 +27,7 @@ export const store = configureStore({
     home: homeReducer,
     articlesList: articlesListReducer,
     article: articleReducer,
+    articlesListByTag: articlesByTagReducer,
     profile: profileReducer,
     auth: authReducer,
     async: asyncReducer

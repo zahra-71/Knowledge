@@ -4,7 +4,7 @@ import { removeUserLocal, setUserLocal } from "../storage/Storage";
 
 // for asyncStart and asyncEnd middleware
 const promiseMiddleware = store => next => action => {
-  console.log("promiseMiddleware", action.payload)
+  // console.log("promiseMiddleware", action.payload)
   if (isPromise(action.payload)) {
     store.dispatch(asyncStart({subtype : action.type}) );
     // const currentView = store.getState().common.viewChangeCounter;  

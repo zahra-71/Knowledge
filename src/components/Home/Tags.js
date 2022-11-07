@@ -1,5 +1,10 @@
 import { Link, Typography, Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
+import { useDispatch } from 'react-redux'
+
+// componenets
+import agent from '../../store/agent'
+import { articlesByTagLoaded, articlesTag } from '../../store/reducers/articlesByTagReducer'
 
 const MyBox = styled(Box) (({ theme }) => ({
   padding: theme.spacing(1),
@@ -21,6 +26,8 @@ const MyGridItem = styled(Grid) (({ theme }) => ({
 
 const Tags = ({tags}) => {
 
+  const dispatch = useDispatch()
+
 // console.log(tags)
 
   return(
@@ -29,10 +36,15 @@ const Tags = ({tags}) => {
       <Grid container rowSpacing={1} >
         { tags ? (
           tags.tags.map((tag, index) => {
+            const handleTag = () => {
+              console.log(tag)
+              dispatch(articlesByTagLoaded(agent.Articles.byTag(tag)))
+              dispatch(articlesTag(tag))
+            }
             return (
               <MyGridItem item key={index}>
                 <Link
-                  href="#"
+                  onClick={handleTag}
                   sx={{ fontSize: "0.7rem",
                     backgroundColor: "gray",
                     borderRadius: 5,
