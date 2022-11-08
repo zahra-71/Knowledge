@@ -5,7 +5,7 @@ const ListPagination = ({count, changePage}) => {
  
   // for number of pages
   const ranges = []
-  for (let i = 1; i <= Math.ceil(count / 10); ++i) {
+  for (let i = 0; i < Math.ceil(count / 10); ++i) {
     ranges.push(i)
   }
 

@@ -38,7 +38,7 @@ const Tags = {
   getAll: () => requests.get('/tags')
 };
 
-const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`
+const limit = (count, p) => `limit=${count}&offset=${p ? (p-1) * count : 0}`
 const Articles = {
   all: page => 
     requests.get(`/articles?${limit(10, page)}`),
