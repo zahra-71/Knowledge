@@ -61,8 +61,8 @@ function AuthorProfile() {
   }
 
   // for change page of favorite articles
-  const handleFavoritePageChange = (value) => {
-    dispatch(authorProfileFavoriteLoaded(agent.Articles.favoriteBy(username, value)))
+  const handleFavoritePageChange = async(value) => {
+    dispatch(authorProfileFavoriteLoaded(await agent.Articles.favoriteBy(username, value)))
   }
 
   return (
