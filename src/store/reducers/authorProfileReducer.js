@@ -21,12 +21,18 @@ export const authorProfileSlice = createSlice({
     },
     authorProfileChangePage: (state, action) => {
       state.authorProfileArticles = action.payload
+    },
+    authorProfileFavoriteLoaded: (state, action) => {
+      state.authorProfileFavoriteArticles = action.payload;
+      console.log(state.authorProfileFavoriteArticles)
     }
   }
 })
 
-export const { authorProfileLoaded, authorProfileUnLoaded, authorProfileFollow, authorProfileChangePage } = authorProfileSlice.actions;
+export const { authorProfileLoaded, authorProfileUnLoaded, authorProfileFollow, authorProfileChangePage,
+  authorProfileFavoriteLoaded } = authorProfileSlice.actions;
 export default authorProfileSlice.reducer;
 
 export const selectAuthorProfile = (state) => state.authorProfile.authorProfile;
 export const selectAuthorProfileArticles = (state) => state.authorProfile.authorProfileArticles;
+export const selectAuthorProfileFavoriteArticles = (state) => state.authorProfile.authorProfileFavoriteArticles;

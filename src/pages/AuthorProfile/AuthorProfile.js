@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation }from 'react-router'
-import { Box, Typography, Button, Paper } from '@mui/material'
+import { Box, Typography, Button, Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
 // Component
 import ArticlesList from '../../components/Home/ArticlesList'
 import agent from '../../store/agent'
-import { authorProfileLoaded, authorProfileUnLoaded, selectAuthorProfile, selectAuthorProfileArticles, authorProfileFollow, authorProfileChangePage } from '../../store/reducers/authorProfileReducer'
+import { authorProfileLoaded, authorProfileUnLoaded, selectAuthorProfile, selectAuthorProfileArticles, 
+  authorProfileFollow, authorProfileChangePage, authorProfileFavoriteLoaded, selectAuthorProfileFavoriteArticles } from '../../store/reducers/authorProfileReducer'
 
 function AuthorProfile() {
 
@@ -17,8 +19,11 @@ function AuthorProfile() {
   const username = decodeURI(location.pathname.replace('/@',''))
   const profile = useSelector(selectAuthorProfile)
   const articles = useSelector(selectAuthorProfileArticles)
+  const favoriteArticles = useSelector(selectAuthorProfileFavoriteArticles)
   const [follow, setFollow] = useState(profile && profile.profile.following)
-console.log(profile)
+  const [value, setValue] = useState("0")
+  console.log(favoriteArticles)
+
   // get profile and articles by author
   useEffect(() => {
     dispatch(authorProfileLoaded(Promise.all([
@@ -45,6 +50,21 @@ console.log(profile)
     dispatch(authorProfileChangePage(await agent.Articles.byAuthor(username, value)))
   }
 
+  // for change tab
+  const changeTab = (event, newValue) => {
+    setValue(newValue)
+  }
+
+  // for favorite articles of author
+  const handleFavoriteArticles = (value) => {
+    dispatch(authorProfileFavoriteLoaded(agent.Articles.favoriteBy(username, value)))
+  }
+
+  // for change page of favorite articles
+  const handleFavoritePageChange = (value) => {
+    dispatch(authorProfileFavoriteLoaded(agent.Articles.favoriteBy(username, value)))
+  }
+
   return (
     <div>
       <Box 
@@ -53,13 +73,16 @@ console.log(profile)
         sx={{
           bgcolor: "lightgray",
           padding: 7,
-          margin: 5
+          mr: 10,
+          ml: 10,
+          mt: 5,
+          mb: 5
         }}
       >
         {profile?
           (<>
             <img src={profile.profile.image} alt={profile.profile.username} 
-              style={{borderRadius: 10, height: 80, width: 80}}
+              style={{borderRadius: 10, height: 50, width: 50}}
             /> 
             <Typography >
               {profile.profile.username}
@@ -89,11 +112,27 @@ console.log(profile)
           )
         }
       </Box>
-      <Paper sx={{m: 10}}>
-        {articles &&
-          <ArticlesList articles={articles} changePage={handlePageChange}/>
-        }
-      </Paper>
+      <Box sx={{m: 10}}>
+        <TabContext value={value}>
+          <Box>
+            <TabList onChange={changeTab} aria-label="lab API tabs example">
+              <Tab label="مقالات من" value="0"/>
+              <Tab label="مقالات مورد علاقه" value="1" onClick={handleFavoriteArticles}/>
+            </TabList>
+          </Box>
+          <TabPanel value="0">
+            {articles &&
+              <ArticlesList articles={articles} changePage={handlePageChange}/>
+            }
+          </TabPanel>
+          <TabPanel value="1">
+            {favoriteArticles &&
+              <ArticlesList articles={favoriteArticles} changePage={handleFavoritePageChange}/>
+            }
+          </TabPanel>
+        </TabContext>
+        
+      </Box>
     </div>
   )
 }
