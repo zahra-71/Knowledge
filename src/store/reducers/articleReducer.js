@@ -19,12 +19,23 @@ const articleSlice = createSlice({
     deleteComment: (state, action) => {
       state.deleteCommentIndex = action.payload;
       state.comments.comments.splice( state.deleteCommentIndex, 1)
+    },
+    addNewArticleLoaded: (state, action) => {
+      state.newArticle = action.payload.article
+      state.error = action.payload.errors
+      state.redirect = `/article/${state.newArticle.slug}`
+      console.log(state.error)
+    },
+    addNewArticleUnLoaded: (state, action) => {
+      state.redirect = null
     }
   }
 })
 
-export const { articleLoaded, addNewComment, deleteComment } = articleSlice.actions;
+export const { articleLoaded, addNewComment, deleteComment, addNewArticleLoaded,
+addNewArticleUnLoaded } = articleSlice.actions;
 export default articleSlice.reducer;
 
 export const selectArticle = (state) => state.article.article;
 export const selectComments = (state) => state.article.comments;
+export const selectRedirect = (state) => state.article.redirect;

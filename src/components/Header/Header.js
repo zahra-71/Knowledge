@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 
 // components
 import { logOut } from '../../store/reducers/commonReducer'
@@ -87,7 +88,10 @@ const LoggedInView = () => {
           </Typography>
           <MyBox>
             <Button color="inherit" onClick={() => navigation("/")}> خانه </Button>
-            <Button color="inherit" onClick={() => navigation("/#")}> پست جدید </Button>
+            <Button color="inherit" onClick={() => navigation("/newpost")}>
+              پست جدید  
+              <ModeEditOutlineTwoToneIcon  fontSize="small"/>  
+            </Button>
             <Button color="inherit" onClick={() => navigation("/#")}> تنظیمات  </Button>
             <IconButton 
               color="inherit"

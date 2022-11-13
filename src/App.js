@@ -18,6 +18,7 @@ import agent from './store/agent';
 import { SelectRedirectTo } from './store/reducers/authReducer';
 import { getToken, getUser } from './storage/Storage';
 import Article from './pages/Article/Article';
+import NewPost from './pages/NewPost/NewPost';
 
 function App({children}) {
 
@@ -58,6 +59,7 @@ function App({children}) {
         <Route path="/register" element={<Register />}/>
         <Route path="/@:username" element={<AuthorProfile />}/>
         <Route path="/article/:id" element={<Article />}/>
+        <Route path="/newpost" element={<NewPost />}/>
       </Routes>
     </div>
   );

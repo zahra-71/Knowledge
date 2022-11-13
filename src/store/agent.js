@@ -58,7 +58,10 @@ const Articles = {
     requests.get(`/articles?tag=${tag}&${limit(5, page)}`),
   favoriteBy: (author, page) => 
     // console.log(author, page)
-    requests.get(`/articles?favorited=${author}&${limit(5, page)}`)
+    requests.get(`/articles?favorited=${author}&${limit(5, page)}`),
+  create: article => 
+    // console.log(article)
+    requests.post(`/articles`, {article})
 
 }
 
