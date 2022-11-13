@@ -49,19 +49,18 @@ const Articles = {
   unfavorite: slug =>
     requests.del(`/articles/${slug}/favorite`),
   byAuthor: (username, page) => 
-    // console.log(username, page),
     requests.get(`/articles?author=${username}&${limit(5, page)}`),
   get: slug =>
     requests.get(`/articles/${slug}`),
   byTag: (tag, page) => 
-  // console.log(tag, page)
     requests.get(`/articles?tag=${tag}&${limit(5, page)}`),
   favoriteBy: (author, page) => 
-    // console.log(author, page)
     requests.get(`/articles?favorited=${author}&${limit(5, page)}`),
   create: article => 
-    // console.log(article)
-    requests.post(`/articles`, {article})
+    requests.post(`/articles`, {article}),
+  del: slug => 
+  // console.log(slug)
+    requests.del(`/articles/${slug}`)
 
 }
 

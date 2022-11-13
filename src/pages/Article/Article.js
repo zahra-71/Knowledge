@@ -23,11 +23,11 @@ function Article() {
 
   useEffect(() => {
     dispatch(articleLoaded(Promise.all([agent.Articles.get(slug), agent.Comments.forArticle(slug)])))
-
   },[slug, dispatch])
+
   return (
     <div>
-      <ArticleContent article={article}/>
+      <ArticleContent article={article} currentUser={currentUser}/>
       {comments && 
         <CommentsContainer comments={comments} currentUser={currentUser} slug={slug} />
       }

@@ -28,12 +28,15 @@ const articleSlice = createSlice({
     },
     addNewArticleUnLoaded: (state, action) => {
       state.redirect = null
+    },
+    deleteArticle: (state, action) => {
+      state.deleteArticle = action.payload
     }
   }
 })
 
 export const { articleLoaded, addNewComment, deleteComment, addNewArticleLoaded,
-addNewArticleUnLoaded } = articleSlice.actions;
+addNewArticleUnLoaded, deleteArticle } = articleSlice.actions;
 export default articleSlice.reducer;
 
 export const selectArticle = (state) => state.article.article;
