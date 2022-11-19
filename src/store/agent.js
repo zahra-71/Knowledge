@@ -59,8 +59,10 @@ const Articles = {
   create: article => 
     requests.post(`/articles`, {article}),
   del: slug => 
-  // console.log(slug)
-    requests.del(`/articles/${slug}`)
+    requests.del(`/articles/${slug}`),
+  update: (slug, article) => 
+  // console.log(slug, article)
+    requests.put(`/articles/${slug}`, {article})
 
 }
 

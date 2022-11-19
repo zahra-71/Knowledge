@@ -19,3 +19,18 @@ export const removeUserLocal = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
 }
+
+// set slug in localStorage for update article
+export const setSlugLocal = (slug) => {
+  localStorage.setItem('slug', slug)
+}
+
+// return slug from localStorage
+export const getSlug = () => {
+  return localStorage.getItem('slug') || null
+}
+
+// remove slug from localStorage
+export const removeSlugLocal = () => {
+  localStorage.removeItem('slug')
+}

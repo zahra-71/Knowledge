@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router'
 
 // componenets
 import agent from '../../store/agent'
-import { addNewArticleLoaded, addNewArticleUnLoaded, selectRedirect } from '../../store/reducers/articleReducer'
+import { addNewArticleLoaded, addNewArticleUnLoaded, selectRedirect, selectUpdateArticle, updateArticle,
+updatedArticle } from '../../store/reducers/articleReducer'
+import { getSlug, removeSlugLocal } from '../../storage/Storage'
 
 // styled
 const MyBox = styled(Box)(({ theme }) => ({
@@ -49,43 +51,69 @@ function NewPost() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [inputArticles, setInputArticles] = useState({
-    title: "",
-    description: "",
-    body: "",
-    tagList: ""
+  const updateArticleValue = useSelector(selectUpdateArticle)
+  console.log("updateArticleValue",updateArticleValue)
+  const [inputArticles, setInputArticles] = useState(inputArticles =>({
+    ...inputArticles,
+      title:  updateArticleValue && updateArticleValue.title ,
+      description: updateArticleValue && updateArticleValue.description,
+      body: updateArticleValue && updateArticleValue.body ,
+      tagList: updateArticleValue && updateArticleValue.tagList
+  }))
+  // console.log( "inputArticles1",inputArticles)
+
+  useEffect(() => {
+    setInputArticles(inputArticles =>({
+      ...inputArticles,
+      body: updateArticleValue && updateArticleValue.body,
+      description: updateArticleValue && updateArticleValue.description,
+      tagList: updateArticleValue && updateArticleValue.tagList,
+      title:  updateArticleValue && updateArticleValue.title ,    
   })
-  
+  )},[updateArticleValue])
+
   const redirect = useSelector(selectRedirect)
+  const slug = getSlug('slug')
 
   // for change article input
   const handleChange = (e) => {
-    setInputArticles(addArticles => ({
-      ...addArticles,
+    setInputArticles(inputArticles => ({
+      ...inputArticles,
       [e.target.name]: e.target.value
     }))
   }
 
-  // for add new article
+  // for add new article and update article
   const handleAddArticles = async() => {
-    dispatch(addNewArticleLoaded(await agent.Articles.create(inputArticles)))
-    setInputArticles({
-      title: "",
-      description: "",
-      body: "",
-      tagList: ""
-    })
+    if(slug){
+      dispatch(updatedArticle(await agent.Articles.update(slug, inputArticles)))
+      removeSlugLocal('slug')
+    }else {
+      dispatch(addNewArticleLoaded(await agent.Articles.create(inputArticles)))
+    }
+    setInputArticles("")
   }
+
+  // get article for update article
+  useEffect(() => {
+    async function getArticleForUpdate() {
+      if(!updateArticleValue && slug){
+        dispatch(updateArticle(await agent.Articles.get(slug)))
+      }
+    }
+    getArticleForUpdate()
+  }, [updateArticleValue, slug])
 
   // for navigate to article page when new article add
   useEffect(() => {
     if(redirect){
       navigate(redirect)
     }
-    return() => {
+    return () => {
       dispatch(addNewArticleUnLoaded())
+      removeSlugLocal('slug')
     }
-  },[redirect, navigate, dispatch])
+  },[redirect])
   
   return (
     <>
@@ -98,12 +126,16 @@ function NewPost() {
             placeholder="عنوان مقاله"
             name="title"
             onChange={handleChange}
+            // defaultValue={updateArticleValue && updateArticleValue.article.title }
+            value={updateArticleValue? inputArticles.title: ""}
           />
           <MyTextField 
             fullWidth
             placeholder="مقاله درباره‌ی چیست؟"
             name="description"
             onChange={handleChange}
+            // defaultValue={updateArticleValue && updateArticleValue.article.description }
+            value={inputArticles.description}
           />
           <MyTextField 
             fullWidth
@@ -116,12 +148,20 @@ function NewPost() {
             }}
             name="body"
             onChange={handleChange}
+            // defaultValue={updateArticleValue && updateArticleValue.article.body }
+            value={inputArticles.body}
           />
           <MyTextField 
             fullWidth
             placeholder="تگ‌ها را وارد کنید"
             name="tagList"
             onChange={handleChange}
+            // defaultValue={updateArticleValue && 
+            //   updateArticleValue.article.tagList.map((tag, index) => {
+            //     return(<span key={index}>{tag}</span>)
+            //   })
+            // }
+            value={inputArticles.tagList}
           />
         </MyForm>
       </MyBox>

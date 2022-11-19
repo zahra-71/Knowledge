@@ -10,7 +10,8 @@ import { useDispatch } from "react-redux";
 
 // components
 import agent from "../../store/agent"
-import { deleteArticle } from "../../store/reducers/articleReducer"
+import { deleteArticle, updateArticle } from "../../store/reducers/articleReducer"
+import { setSlugLocal } from "../../storage/Storage";
 
 // styles
 const MyButton = styled(Button)(({ theme }) => ({
@@ -32,6 +33,13 @@ const ArticleContent = ({article, currentUser}) => {
     await agent.Articles.del(article.article.slug)
     dispatch(deleteArticle(await article.article.slug))
     navigate("/")
+  }
+
+  const handleUpdateArticle = async() => {
+    // console.log(article.article.slug)
+    dispatch(updateArticle(article))
+    setSlugLocal(article.article.slug)
+    navigate("/newpost")
   }
 
   return(
@@ -66,7 +74,9 @@ const ArticleContent = ({article, currentUser}) => {
                 {currentUser && 
                   currentUser === article.article.author.username? (
                     <Grid item>
-                      <MyButton variant="contained" size="small">
+                      <MyButton variant="contained" size="small"
+                        onClick={handleUpdateArticle}
+                      >
                         ویرایش مقاله
                         <ModeEditOutlineTwoToneIcon fontSize="small"/>
                       </MyButton>

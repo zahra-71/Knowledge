@@ -5,7 +5,7 @@ import { Typography } from '@mui/material'
 
 // componenets
 import agent from '../../store/agent'
-import { articleLoaded, selectArticle, selectComments, selectNewComment } from '../../store/reducers/articleReducer'
+import { articleLoaded, articleUnloaded, selectArticle, selectComments, selectNewComment } from '../../store/reducers/articleReducer'
 import ArticleContent from '../../components/Article/Article'
 import CommentsContainer from '../../components/Article/CommentsContainer'
 import { SelectCurrentUser } from '../../store/reducers/commonReducer'
@@ -23,6 +23,9 @@ function Article() {
 
   useEffect(() => {
     dispatch(articleLoaded(Promise.all([agent.Articles.get(slug), agent.Comments.forArticle(slug)])))
+    return () => {
+      dispatch(articleUnloaded())
+    }
   },[slug, dispatch])
 
   return (
