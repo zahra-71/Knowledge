@@ -26,9 +26,9 @@ const articleSlice = createSlice({
     },
     addNewArticleLoaded: (state, action) => {
       state.newArticle = action.payload.article
-      state.error = action.payload.errors
-      state.redirect = `/article/${state.newArticle.slug}`
-      console.log(state.redirect)
+      state.redirect = state.newArticle && `/article/${state.newArticle.slug}`
+      state.error = action.payload.errors? "عنوان تکراری است" : ""
+      console.log(state.error)
     },
     addNewArticleUnLoaded: (state, action) => {
       state.redirect = null;
@@ -39,12 +39,12 @@ const articleSlice = createSlice({
     },
     updateArticle: (state, action) => {
       state.updateArticle = action.payload.article
-      console.log(state.updateArticle)
+      // console.log(state.updateArticle)
     },
     updatedArticle: (state, action) => {
       state.updatedArticle = action.payload.article;
       state.redirect = `/article/${state.updatedArticle.slug}`
-      console.log(state.redirect)
+      // console.log(state.redirect)
     },
   }
 })
@@ -58,3 +58,4 @@ export const selectArticle = (state) => state.article.article;
 export const selectComments = (state) => state.article.comments;
 export const selectRedirect = (state) => state.article.redirect;
 export const selectUpdateArticle = (state) => state.article.updateArticle;
+export const selectError = (state) => state.article.error;

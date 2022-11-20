@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
-import {  Box, Button, InputBase } from '@mui/material'
+import {  Box, Button, InputBase, Fade, Typography, Divider } from '@mui/material'
 import { styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 // componenets
 import agent from '../../store/agent'
-import { addNewArticleLoaded, addNewArticleUnLoaded, selectRedirect, selectUpdateArticle, updateArticle,
+import { addNewArticleLoaded, addNewArticleUnLoaded, selectError, selectRedirect, selectUpdateArticle, updateArticle,
 updatedArticle } from '../../store/reducers/articleReducer'
 import { getSlug, removeSlugLocal } from '../../storage/Storage'
 
@@ -52,23 +52,24 @@ function NewPost() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const updateArticleValue = useSelector(selectUpdateArticle)
-  console.log("updateArticleValue",updateArticleValue)
+  const error = useSelector(selectError)
   const [inputArticles, setInputArticles] = useState(inputArticles =>({
     ...inputArticles,
-      title:  updateArticleValue && updateArticleValue.title ,
-      description: updateArticleValue && updateArticleValue.description,
-      body: updateArticleValue && updateArticleValue.body ,
-      tagList: updateArticleValue && updateArticleValue.tagList
+      title:  "" ,
+      description: "",
+      body:"" ,
+      tagList: ""
   }))
-  // console.log( "inputArticles1",inputArticles)
+  console.log( "inputArticles1",inputArticles)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setInputArticles(inputArticles =>({
       ...inputArticles,
-      body: updateArticleValue && updateArticleValue.body,
-      description: updateArticleValue && updateArticleValue.description,
-      tagList: updateArticleValue && updateArticleValue.tagList,
-      title:  updateArticleValue && updateArticleValue.title ,    
+      body: updateArticleValue ? updateArticleValue.body : "",
+      description: updateArticleValue ? updateArticleValue.description : "",
+      tagList: updateArticleValue ? updateArticleValue.tagList : "",
+      title:  updateArticleValue ? updateArticleValue.title : [],    
   })
   )},[updateArticleValue])
 
@@ -82,16 +83,15 @@ function NewPost() {
       [e.target.name]: e.target.value
     }))
   }
-
+  console.log( "inputArticles2",inputArticles)
   // for add new article and update article
   const handleAddArticles = async() => {
     if(slug){
       dispatch(updatedArticle(await agent.Articles.update(slug, inputArticles)))
       removeSlugLocal('slug')
     }else {
-      dispatch(addNewArticleLoaded(await agent.Articles.create(inputArticles)))
+      dispatch(addNewArticleLoaded(agent.Articles.create(inputArticles)))
     }
-    setInputArticles("")
   }
 
   // get article for update article
@@ -127,7 +127,7 @@ function NewPost() {
             name="title"
             onChange={handleChange}
             // defaultValue={updateArticleValue && updateArticleValue.article.title }
-            value={updateArticleValue? inputArticles.title: ""}
+            value={inputArticles.title}
           />
           <MyTextField 
             fullWidth
@@ -175,10 +175,23 @@ function NewPost() {
       <MyButton 
         variant="contained"
         onClick={handleAddArticles}
+        disabled={!inputArticles.title || !inputArticles.description ||
+        !inputArticles.body}
       >
         ارسال
       </MyButton>
     </Box>
+        <Fade in={!!error} sx={{mr:"20%"}}>
+          <Typography color="red">
+            {error? (
+              <>
+            {error}
+              </>
+            ):(
+              <></>
+            )}
+            </Typography>
+        </Fade>
   </>
   )
 }

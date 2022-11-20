@@ -65,7 +65,9 @@ const ArticlePreview = ({article}) => {
           sx={{cursor: "pointer"}}
           onClick={() => navigate(`/@${article.author.username}`)}
           >
-            <img src={article.author.image} alt={article.author.username} style={{marginLeft: "4px", borderRadius: 10}}/>
+            <img src={article.author.image} alt={article.author.username} 
+            style={{marginLeft: "4px", borderRadius: 10, width:25}}
+            />
             {article.author.username}
           </Link>
         }
