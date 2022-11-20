@@ -27,6 +27,11 @@ function MainVeiw({user, articles, changePage }) {
     dispatch(articlesListLoaded(agent.Articles.feed()))
   }
 
+  // change page of feed articles
+  const changePageFeedArticles = async(value) => {
+    dispatch(articlesListLoaded(await agent.Articles.feed(value)))
+  }
+
   // change page of articles with tag
   const changePageTag = async(value) => {
     dispatch(articlesByTagLoaded(await agent.Articles.byTag(tag,value)))
@@ -59,7 +64,7 @@ function MainVeiw({user, articles, changePage }) {
         </TabPanel>
         <TabPanel value="0">
           { feedArticles &&
-              <ArticlesList articles={feedArticles} />
+              <ArticlesList articles={feedArticles} changePage={changePageFeedArticles} />
           }
         </TabPanel>
         <TabPanel value="2">

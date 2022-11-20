@@ -42,8 +42,8 @@ const limit = (count, p) => `limit=${count}&offset=${p ? (p-1) * count : 0}`
 const Articles = {
   all: page => 
     requests.get(`/articles?${limit(10, page)}`),
-  feed: () =>
-    requests.get('/articles/feed?limit=10&offset=0'),
+  feed: (page) =>
+    requests.get(`/articles/feed?${limit(10, page)}`),
   favorite: slug =>
     requests.post(`/articles/${slug}/favorite`),
   unfavorite: slug =>

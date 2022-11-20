@@ -1,6 +1,7 @@
 import { Link, Typography, Box, Grid } from '@mui/material'
 import { styled } from '@mui/system'
 import { useDispatch } from 'react-redux'
+import CircularProgress from '@mui/material/CircularProgress';
 
 // componenets
 import agent from '../../store/agent'
@@ -62,9 +63,12 @@ const Tags = ({tags}) => {
             )
           })
         ) : (
-          <div style={{ color: "gray", fontSize: "0.8rem", marginTop: "8px"}}>
-           در حال بارگیری تگ...
-          </div>
+          // <div style={{ color: "gray", fontSize: "0.8rem", marginTop: "8px"}}>
+          //  در حال بارگیری تگ...
+          // </div>
+          <Box sx={{display: 'flex', pt: 2}}>
+            <CircularProgress size='3vh' />
+          </Box>
         )}
       </Grid>
     </MyBox>

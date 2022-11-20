@@ -1,5 +1,7 @@
+import CircularProgress from '@mui/material/CircularProgress';
+import { Typography, Box } from "@mui/material";
+
 // components
-import { Typography } from "@mui/material";
 import ArticlePreview from "./ArticlePreview"
 import ListPagination from "./ListPagination";
 
@@ -7,9 +9,9 @@ const ArticlesList = ({articles, changePage}) => {
 
   if (!articles.articles) {
     return(
-      <Typography>
-        در حال بارگیری ...
-      </Typography>
+      <Box sx={{display: 'flex'}}>
+        <CircularProgress size='4vh'/>
+      </Box>
     )
   }
 
