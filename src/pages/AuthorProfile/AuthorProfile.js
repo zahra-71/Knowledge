@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation }from 'react-router'
-import { Box, Typography, Button, Tab } from '@mui/material'
+import { Box, Typography, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
+
 
 // Component
 import ArticlesList from '../../components/Home/ArticlesList'
 import agent from '../../store/agent'
 import { authorProfileLoaded, authorProfileUnLoaded, selectAuthorProfile, selectAuthorProfileArticles, 
   authorProfileFollow, authorProfileChangePage, authorProfileFavoriteLoaded, selectAuthorProfileFavoriteArticles } from '../../store/reducers/authorProfileReducer'
+import { SelectCurrentUser } from '../../store/reducers/commonReducer'
+import { EditProfileSettings, FollowUserButton } from '../../components/AuthorProfile/ProfileComponenets'
 
 function AuthorProfile() {
 
@@ -20,9 +21,17 @@ function AuthorProfile() {
   const profile = useSelector(selectAuthorProfile)
   const articles = useSelector(selectAuthorProfileArticles)
   const favoriteArticles = useSelector(selectAuthorProfileFavoriteArticles)
+  const currentUser = useSelector(SelectCurrentUser)
   const [follow, setFollow] = useState(profile && profile.profile.following)
+  const user = profile &&
+  profile.profile.username === currentUser
   const [value, setValue] = useState("0")
-  console.log(favoriteArticles)
+  // console.log(follow)
+
+  // for update initial value of follow
+  useEffect(() => {
+    setFollow(profile && profile.profile.following)
+  }, [profile])
 
   // get profile and articles by author
   useEffect(() => {
@@ -36,13 +45,15 @@ function AuthorProfile() {
   }, [dispatch, username])
 
   // for follow and unfollow button
-  const handleFollow = async() => {
+  const handleFollow = async(follow) => {
+    console.log(follow)
     if (follow) {
       dispatch(authorProfileFollow(await agent.Profile.unfollow(username)))
     } else {
       dispatch(authorProfileFollow(await agent.Profile.follow(username)))
     }
     setFollow(!follow)
+    console.log(follow)
   }
 
   // for page change of articles in by author api
@@ -90,23 +101,15 @@ function AuthorProfile() {
             <Typography >
               {profile.profile.bio}
             </Typography>
-            <Button variant="contained"
-              sx={{float: "right", 
-              "&:hover": {
-                color: "white"
-              },
-              bgcolor: follow? "#1976d2" : "white",
-              color: follow? "white" :  "#1976d2"
-            }}
-              endIcon={follow? <RemoveIcon sx={{mr: 2}}/> : <AddIcon sx={{mr: 2}}/>}
-              onClick={handleFollow}
-            >
-              {follow? (
-                "دنبال نکردن"
-              ) : (
-                "دنبال کردن"
-              )}
-            </Button>
+            <>
+              {/* {currentUser === profile.profile.username? ( */}
+                <EditProfileSettings user={user}/>
+              {/* ) : ( */}
+                <FollowUserButton follow={follow} user={user}
+                  handleFollow={handleFollow}
+                />
+              {/* )} */}
+            </>
           </>) : (
             <Typography>در حال بارگیری ...</Typography>
           )

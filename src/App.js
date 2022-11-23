@@ -19,6 +19,7 @@ import { SelectRedirectTo } from './store/reducers/authReducer';
 import { getToken, getUser } from './storage/Storage';
 import Article from './pages/Article/Article';
 import NewPost from './pages/NewPost/NewPost';
+import Settings from './pages/Settings/Settings';
 
 function App({children}) {
 
@@ -60,6 +61,7 @@ function App({children}) {
         <Route path="/@:username" element={<AuthorProfile />}/>
         <Route path="/article/:id" element={<Article />}/>
         <Route path="/newpost" element={<NewPost />}/>
+        <Route path="/settings" element={<Settings />}/>
       </Routes>
     </div>
   );

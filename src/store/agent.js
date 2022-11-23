@@ -32,6 +32,11 @@ const Auth = {
     requests.post('/users/login', { user: { email, password } }),
   register: (username, email, password) =>
     requests.post('/users', {user: {username, email, password} }),
+  current: () =>
+    requests.get('/user'),
+  update: (user) =>
+  // console.log(user)
+    requests.put('/user', {user})
 };
 
 const Tags = {
@@ -61,13 +66,13 @@ const Articles = {
   del: slug => 
     requests.del(`/articles/${slug}`),
   update: (slug, article) => 
-  // console.log(slug, article)
     requests.put(`/articles/${slug}`, {article})
 
 }
 
 const Profile = {
   get: username =>
+  //  console.log(username),
     requests.get(`/profiles/${username}`),
   follow: username => 
     // console.log(username),

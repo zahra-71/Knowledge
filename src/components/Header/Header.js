@@ -92,7 +92,7 @@ const LoggedInView = () => {
               پست جدید  
               <ModeEditOutlineTwoToneIcon  fontSize="small"/>  
             </Button>
-            <Button color="inherit" onClick={() => navigation("/#")}> تنظیمات  </Button>
+            <Button color="inherit" onClick={() => navigation("/settings")}> تنظیمات  </Button>
             <IconButton 
               color="inherit"
               aria-haspopup="true"

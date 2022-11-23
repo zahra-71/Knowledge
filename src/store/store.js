@@ -14,6 +14,7 @@ import articlesListReducer from "./reducers/articlesListReducer";
 import authorProfileReducer from "./reducers/authorProfileReducer";
 import articleReducer from "./reducers/articleReducer";
 import articlesByTagReducer from "./reducers/articlesByTagReducer";
+import settingsReducer from "./reducers/settingsReducer";
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext ({
   history: createBrowserHistory () 
@@ -29,6 +30,7 @@ export const store = configureStore({
     article: articleReducer,
     articlesListByTag: articlesByTagReducer,
     authorProfile: authorProfileReducer,
+    settings: settingsReducer,
     auth: authReducer,
     async: asyncReducer
   }),
