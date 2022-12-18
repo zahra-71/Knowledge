@@ -1,4 +1,12 @@
 # Knowledge
+![Alt text](/src/images/home.png?raw=true "Optional Title")
+![Alt text](/src/images/login.png?raw=true "Optional Title")
+![Alt text](/src/images/register.png?raw=true "Optional Title")
+![Alt text](/src/images/home2.png?raw=true "Optional Title")
+![Alt text](/src/images/setting.png?raw=true "Optional Title")
+![Alt text](/src/images/addPost.png?raw=true "Optional Title")
+![Alt text](/src/images/profile.png?raw=true "Optional Title")
+![Alt text](/src/images/profileAuthor.png?raw=true "Optional Title")
 
 ## Summary
 
@@ -33,3 +41,7 @@ Click clone/download the repository on your local machine.
 ## Features
 
 1. Responsive Design
+2. Add new Article
+3. Change profile setting
+4. Like and dislike articles
+5. Add like articles to favorite articles
