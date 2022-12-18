@@ -10,18 +10,18 @@ export const EditProfileSettings = ({user}) => {
   if ( user) {
     return (
       <Button
-      variant="contained"
-      sx={{float: "right", 
-        "&:hover": {
-          color: "white"
-        },
-        bgcolor: "white",
-        color: "#1976d2"
-      }}
-      onClick={() =>  navigation('/settings')}
-    >
-      ویرایش تنظیمات پروفایل
-    </Button>
+        variant="contained"
+        sx={{float: "right", 
+          "&:hover": {
+            color: "white"
+          },
+          bgcolor: "white",
+          color: "#1976d2"
+        }}
+        onClick={() =>  navigation('/settings')}
+      >
+        ویرایش تنظیمات پروفایل
+      </Button>
     )
   } 
   return null

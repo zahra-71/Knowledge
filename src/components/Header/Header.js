@@ -80,17 +80,20 @@ const LoggedInView = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Typography sx={{ flexGrow: 1, mr: 3 }}>
+          <Typography sx={{ flexGrow: 1, mr: 3 }} 
+            onClick={() => navigation(`/@${selectUser}`)}
+          >
             <IconButton color="inherit">
-              <InsertEmoticonIcon />
+              <InsertEmoticonIcon sx={{mb:1}}/>
+              <Typography sx={{fontSize: 20, m: 1}}>{selectUser}</Typography>
             </IconButton>
-            {selectUser}
+            
           </Typography>
           <MyBox>
             <Button color="inherit" onClick={() => navigation("/")}> خانه </Button>
-            <Button color="inherit" onClick={() => navigation("/newpost")}>
-              پست جدید  
-              <ModeEditOutlineTwoToneIcon  fontSize="small"/>  
+            <Button color="inherit" onClick={() => navigation("/newpost")}> 
+              پست جدید 
+              <ModeEditOutlineTwoToneIcon  fontSize="small" sx={{mr: 0.2}}/>  
             </Button>
             <Button color="inherit" onClick={() => navigation("/settings")}> تنظیمات  </Button>
             <IconButton 
